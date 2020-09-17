@@ -1,4 +1,2 @@
-package hu.zimikri.todoapp.models;
-
-public class TodoDto {
+package hu.zimikri.todoapp.models;public class TodoDto {
 }
