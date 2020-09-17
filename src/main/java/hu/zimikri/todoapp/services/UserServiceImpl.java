@@ -29,18 +29,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findUserById(long id) throws UserNotFoundException {
-        User user = userRepository
-                .findUserById(id)
+        User user = userRepository.findUserById(id)
                 .orElseThrow(UserNotFoundException::new);
 
-        return new UserDTO(
-                        user.getId(),
-                        user.getUsername(),
-                        todoRepository.findAllByUserId(id));
+        return new UserDTO(user, todoRepository.findAllByUserId(id));
     }
 
     @Override
-    public User saveNewUser(User user) throws ApiException {
+    public User saveNewUser(User user) throws UserAlreadyExistsException {
         if (userRepository.existsUserByUsername(user.getUsername()))
             throw new UserAlreadyExistsException();
 

@@ -1,6 +1,7 @@
 package hu.zimikri.todoapp.models.dtos;
 
 import hu.zimikri.todoapp.models.Entities.Todo;
+import hu.zimikri.todoapp.models.Entities.User;
 
 import java.util.List;
 
@@ -12,9 +13,9 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(long id, String username, List<Todo> todos) {
-        this.id = id;
-        this.username = username;
+    public UserDTO(User user, List<Todo> todos) {
+        this.id = user.getId();
+        this.username = user.getUsername();
         this.setTodos(todos);
     }
 
