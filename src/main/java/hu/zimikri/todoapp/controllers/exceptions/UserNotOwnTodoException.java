@@ -2,9 +2,9 @@ package hu.zimikri.todoapp.controllers.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class UserNotOwnTodo extends ApiException {
+public class UserNotOwnTodoException extends ApiException {
 
-    public UserNotOwnTodo() {
+    public UserNotOwnTodoException() {
         super("It's not your todo.");
         setHttpStatus(HttpStatus.FORBIDDEN);
     }

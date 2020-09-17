@@ -1,4 +1,4 @@
-package hu.zimikri.todoapp.models;
+package hu.zimikri.todoapp.models.Entities;
 
 import javax.persistence.*;
 

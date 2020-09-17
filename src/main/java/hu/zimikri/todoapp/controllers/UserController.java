@@ -1,17 +1,15 @@
 package hu.zimikri.todoapp.controllers;
 
+import hu.zimikri.todoapp.controllers.exceptions.ApiException;
 import hu.zimikri.todoapp.controllers.exceptions.UserNotFoundException;
-import hu.zimikri.todoapp.models.User;
-import hu.zimikri.todoapp.models.UserTodosDto;
+import hu.zimikri.todoapp.models.Entities.User;
+import hu.zimikri.todoapp.models.dtos.UserDTO;
 import hu.zimikri.todoapp.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -29,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/api/users/{userId}")
-    public ResponseEntity<UserTodosDto> getUserById(@PathVariable long userId)
+    public ResponseEntity<UserDTO> getUserById(@PathVariable long userId)
             throws UserNotFoundException {
 
         return ResponseEntity
@@ -38,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/api/users")
-    public ResponseEntity<User> addNewUser(@RequestBody User user) {
+    public ResponseEntity<User> addNewUser(@RequestBody User user) throws ApiException {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.saveNewUser(user));

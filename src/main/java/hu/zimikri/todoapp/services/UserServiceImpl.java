@@ -1,15 +1,15 @@
 package hu.zimikri.todoapp.services;
 
+import hu.zimikri.todoapp.controllers.exceptions.ApiException;
+import hu.zimikri.todoapp.controllers.exceptions.UserAlreadyExistsException;
 import hu.zimikri.todoapp.controllers.exceptions.UserNotFoundException;
-import hu.zimikri.todoapp.models.Todo;
-import hu.zimikri.todoapp.models.User;
-import hu.zimikri.todoapp.models.UserTodosDto;
+import hu.zimikri.todoapp.models.Entities.User;
+import hu.zimikri.todoapp.models.dtos.UserDTO;
 import hu.zimikri.todoapp.repositories.TodoRepository;
 import hu.zimikri.todoapp.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,25 +28,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserTodosDto findUserById(long id) throws UserNotFoundException {
+    public UserDTO findUserById(long id) throws UserNotFoundException {
         User user = userRepository.findUserById(id);
         if (user == null) throw new UserNotFoundException();
 
-        return new UserTodosDto(
+        return new UserDTO(
                         user.getId(),
                         user.getUsername(),
                         todoRepository.findAllByUserId(id));
-
-//        return Optional.of(userRepository.findUserById(id))
-//                .map(user -> new UserTodosDto(
-//                        user.getId(),
-//                        user.getUsername(),
-//                        todoRepository.findAllByUserId(id)))
-//                .orElseThrow(() -> new UserNotFoundException());
     }
 
     @Override
-    public User saveNewUser(User user) {
+    public User saveNewUser(User user) throws ApiException {
+        User existingUser = userRepository.findUserByUsername(user.getUsername());
+        if (existingUser != null) throw new UserAlreadyExistsException();
         return userRepository.save(user);
     }
 }

@@ -1,13 +1,15 @@
-package hu.zimikri.todoapp.models;
+package hu.zimikri.todoapp.models.dtos;
 
-public class TodoDto {
+import hu.zimikri.todoapp.models.Entities.Todo;
+
+public class TodoDTO {
     private long id;
     private String task;
     private boolean isCompleted;
     private String deadline;
     private String priority;
 
-    public TodoDto(Todo todo) {
+    public TodoDTO(Todo todo) {
         this.id = todo.getId();
         this.task = todo.getTask();
         this.isCompleted = todo.isCompleted();

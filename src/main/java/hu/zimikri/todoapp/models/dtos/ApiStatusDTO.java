@@ -1,20 +1,20 @@
-package hu.zimikri.todoapp.models;
+package hu.zimikri.todoapp.models.dtos;
 
-public class ApiStatusDto {
+public class ApiStatusDTO {
     private String status = "error";
     private String message;
 
-    public ApiStatusDto(String status, String message) {
+    public ApiStatusDTO(String status, String message) {
         this.status = status;
         this.message = message;
     }
 
-    public static ApiStatusDto ok(String message) {
-        return new ApiStatusDto("ok", message);
+    public static ApiStatusDTO ok(String message) {
+        return new ApiStatusDTO("ok", message);
     }
 
-    public static ApiStatusDto error(String message) {
-        return new ApiStatusDto("error", message);
+    public static ApiStatusDTO error(String message) {
+        return new ApiStatusDTO("error", message);
     }
 
     public String getStatus() {

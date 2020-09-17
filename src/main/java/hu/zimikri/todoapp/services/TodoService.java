@@ -1,16 +1,16 @@
 package hu.zimikri.todoapp.services;
 
 import hu.zimikri.todoapp.controllers.exceptions.ApiException;
-import hu.zimikri.todoapp.models.AllTodosByUserDto;
-import hu.zimikri.todoapp.models.ApiStatusDto;
-import hu.zimikri.todoapp.models.Todo;
-import hu.zimikri.todoapp.models.TodoDto;
+import hu.zimikri.todoapp.models.dtos.AllTodosByUserDTO;
+import hu.zimikri.todoapp.models.dtos.ApiStatusDTO;
+import hu.zimikri.todoapp.models.Entities.Todo;
+import hu.zimikri.todoapp.models.dtos.TodoDTO;
 
 public interface TodoService {
 
-    AllTodosByUserDto findAllTodosByUser(long userId) throws ApiException;
-    TodoDto findTodoById(long todoId, long userId) throws ApiException;
-    TodoDto saveNewTodo(Todo todo, long userId) throws ApiException;
-    ApiStatusDto deleteTodoById(long todoId, long userId) throws ApiException;
+    AllTodosByUserDTO findAllTodosByUser(long userId) throws ApiException;
+    TodoDTO findTodoById(long todoId, long userId) throws ApiException;
+    TodoDTO saveNewTodo(Todo todo, long userId) throws ApiException;
+    ApiStatusDTO deleteTodoById(long todoId, long userId) throws ApiException;
 
 }

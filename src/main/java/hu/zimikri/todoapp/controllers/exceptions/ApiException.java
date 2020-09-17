@@ -2,7 +2,7 @@ package hu.zimikri.todoapp.controllers.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class ApiException extends Exception {
+public class ApiException extends RuntimeException {
 
     private HttpStatus httpStatus;
 

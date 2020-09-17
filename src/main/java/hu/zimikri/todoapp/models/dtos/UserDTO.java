@@ -1,16 +1,18 @@
-package hu.zimikri.todoapp.models;
+package hu.zimikri.todoapp.models.dtos;
+
+import hu.zimikri.todoapp.models.Entities.Todo;
 
 import java.util.List;
 
-public class UserTodosDto {
+public class UserDTO {
     private long id;
     private String username;
-    private List<TodoDto> todos;
+    private List<TodoDTO> todos;
 
-    public UserTodosDto() {
+    public UserDTO() {
     }
 
-    public UserTodosDto(long id, String username, List<Todo> todos) {
+    public UserDTO(long id, String username, List<Todo> todos) {
         this.id = id;
         this.username = username;
         this.setTodos(todos);
@@ -25,7 +27,7 @@ public class UserTodosDto {
     }
 
     public void setTodos(List<Todo> todos) {
-        this.todos = new AllTodosByUserDto(todos).getTodos();
+        this.todos = new AllTodosByUserDTO(todos).getTodos();
     }
 
     public long getId() {
@@ -36,7 +38,7 @@ public class UserTodosDto {
         return username;
     }
 
-    public List<TodoDto> getTodos() {
+    public List<TodoDTO> getTodos() {
         return todos;
     }
 }

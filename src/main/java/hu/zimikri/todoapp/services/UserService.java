@@ -1,17 +1,17 @@
 package hu.zimikri.todoapp.services;
 
+import hu.zimikri.todoapp.controllers.exceptions.ApiException;
 import hu.zimikri.todoapp.controllers.exceptions.UserNotFoundException;
-import hu.zimikri.todoapp.models.User;
-import hu.zimikri.todoapp.models.UserTodosDto;
+import hu.zimikri.todoapp.models.Entities.User;
+import hu.zimikri.todoapp.models.dtos.UserDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
     List<User> findAllUsers();
 
-    UserTodosDto findUserById(long id) throws UserNotFoundException;
+    UserDTO findUserById(long id) throws UserNotFoundException;
 
-    User saveNewUser(User user);
+    User saveNewUser(User user) throws ApiException;
 
 }
