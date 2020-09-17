@@ -29,8 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findUserById(long id) throws UserNotFoundException {
-        User user = userRepository.findUserById(id);
-        if (user == null) throw new UserNotFoundException();
+        User user = userRepository
+                .findUserById(id)
+                .orElseThrow(UserNotFoundException::new);
 
         return new UserDTO(
                         user.getId(),
@@ -40,8 +41,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveNewUser(User user) throws ApiException {
-        User existingUser = userRepository.findUserByUsername(user.getUsername());
-        if (existingUser != null) throw new UserAlreadyExistsException();
+        if (userRepository.existsUserByUsername(user.getUsername()))
+            throw new UserAlreadyExistsException();
+
         return userRepository.save(user);
     }
 }
