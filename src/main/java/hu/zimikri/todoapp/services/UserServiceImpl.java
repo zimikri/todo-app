@@ -1,6 +1,10 @@
 package hu.zimikri.todoapp.services;
 
+import hu.zimikri.todoapp.controllers.exceptions.UserNotFoundException;
+import hu.zimikri.todoapp.models.Todo;
 import hu.zimikri.todoapp.models.User;
+import hu.zimikri.todoapp.models.UserTodosDto;
+import hu.zimikri.todoapp.repositories.TodoRepository;
 import hu.zimikri.todoapp.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,12 +12,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements UserServiceInterface {
+public class UserServiceImpl implements UserService {
 
     public UserRepository userRepository;
+    public TodoRepository todoRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, TodoRepository todoRepository) {
         this.userRepository = userRepository;
+        this.todoRepository = todoRepository;
     }
 
     @Override
@@ -22,9 +28,21 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public User findUserById(long id) {
-        Optional<User> userOptional = userRepository.findUserById(id);
-        return userOptional.orElseGet(User::new);
+    public UserTodosDto findUserById(long id) throws UserNotFoundException {
+        User user = userRepository.findUserById(id);
+        if (user == null) throw new UserNotFoundException();
+
+        return new UserTodosDto(
+                        user.getId(),
+                        user.getUsername(),
+                        todoRepository.findAllByUserId(id));
+
+//        return Optional.of(userRepository.findUserById(id))
+//                .map(user -> new UserTodosDto(
+//                        user.getId(),
+//                        user.getUsername(),
+//                        todoRepository.findAllByUserId(id)))
+//                .orElseThrow(() -> new UserNotFoundException());
     }
 
     @Override

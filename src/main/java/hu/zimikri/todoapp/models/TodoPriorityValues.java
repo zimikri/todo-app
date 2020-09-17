@@ -1,2 +1,9 @@
-package hu.zimikri.todoapp.models;public interface TodoPriorityValues {
+package hu.zimikri.todoapp.models;
+
+public interface TodoPriorityValues {
+     String[] priority = new String[] {
+         "low",
+         "medium",
+         "high"
+    };
 }

@@ -1,36 +1,63 @@
 package hu.zimikri.todoapp.services;
 
+import hu.zimikri.todoapp.controllers.exceptions.ApiException;
+import hu.zimikri.todoapp.controllers.exceptions.TodoNotFoundException;
+import hu.zimikri.todoapp.controllers.exceptions.UserNotFoundException;
+import hu.zimikri.todoapp.controllers.exceptions.UserNotOwnTodo;
+import hu.zimikri.todoapp.models.AllTodosByUserDto;
+import hu.zimikri.todoapp.models.ApiStatusDto;
 import hu.zimikri.todoapp.models.Todo;
+import hu.zimikri.todoapp.models.TodoDto;
 import hu.zimikri.todoapp.repositories.TodoRepository;
+import hu.zimikri.todoapp.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @Service
-public class TodoService implements TodoServiceInterface {
+public class TodoServiceImpl implements TodoService {
 
     public TodoRepository todoRepository;
+    public UserRepository userRepository;
 
-    public TodoService(TodoRepository todoRepository) {
+    public TodoServiceImpl(TodoRepository todoRepository, UserRepository userRepository) {
         this.todoRepository = todoRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public Map<String, List<Todo>> findAllTodosByUser(long userId) {
-        Map<String, List<Todo>> result = new HashMap<>();
-        result.put("todos", todoRepository.findAllByUserId(userId));
-        return result;
+    public AllTodosByUserDto findAllTodosByUser(long userId) throws ApiException {
+        if (!userRepository.existsUserById(userId)) throw new UserNotFoundException();
+
+        return new AllTodosByUserDto(todoRepository.findAllByUserId(userId));
     }
 
     @Override
-    public Todo findTodoById(long id) {
-        return null;
+    public TodoDto findTodoById(long todoId, long userId) throws ApiException {
+        if (!userRepository.existsUserById(userId)) throw new UserNotFoundException();
+        Todo todo = todoRepository.findTodoById(todoId);
+
+        if (todo == null) throw new TodoNotFoundException();
+        if (todo.getUserId() != userId) throw new UserNotOwnTodo();
+
+        return new TodoDto(todo);
     }
 
     @Override
-    public Todo saveNewTodo(Todo todo) {
-        return todoRepository.save(todo);
+    public TodoDto saveNewTodo(Todo todo, long userId) throws ApiException {
+        if (!userRepository.existsUserById(userId)) throw new UserNotFoundException();
+        // TODO: Data validation
+        todo.setUserId(userId);
+        return new TodoDto(todoRepository.save(todo));
+    }
+
+    @Override
+    public ApiStatusDto deleteTodoById(long todoId, long userId) throws ApiException {
+        if (!userRepository.existsUserById(userId)) throw new UserNotFoundException();
+        Todo todo = todoRepository.findTodoById(todoId);
+
+        if (todo == null) throw new TodoNotFoundException();
+        if (todo.getUserId() != userId) throw new UserNotOwnTodo();
+
+        todoRepository.deleteById(todoId);
+        return ApiStatusDto.ok("Todo successfully deleted.");
     }
 }
