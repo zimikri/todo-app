@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table(
         name = "todos",
         indexes = {
-                @Index(columnList = "userId"),
                 @Index(columnList = "isCompleted")
         }
 )

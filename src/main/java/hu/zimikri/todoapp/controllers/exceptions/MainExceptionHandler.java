@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class MainExceptionHandler {
     @ExceptionHandler({
             UserNotFoundException.class,
             TodoNotFoundException.class,
@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
             UserAlreadyExistsException.class,
             InvalidArgumentException.class
     })
-    public final ResponseEntity<ApiStatusDTO> handleExceptions(ApiException apiException) {
+    public final ResponseEntity<ApiStatusDTO> handleApiExceptions(ApiException apiException) {
         return ResponseEntity
                 .status(apiException.getHttpStatus())
                 .body(ApiStatusDTO.error(apiException.getMessage()));

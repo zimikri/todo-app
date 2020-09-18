@@ -10,9 +10,6 @@ public class UserDTO {
     private String username;
     private List<TodoDTO> todos;
 
-    public UserDTO() {
-    }
-
     public UserDTO(User user, List<Todo> todos) {
         this.id = user.getId();
         this.username = user.getUsername();

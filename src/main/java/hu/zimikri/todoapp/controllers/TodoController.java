@@ -23,7 +23,8 @@ public class TodoController {
 
     @GetMapping("/api/todos")
     public ResponseEntity<AllTodosByUserDTO> getAllTodos(@RequestHeader(value="userId") long userId)
-            throws ApiException {
+            throws RuntimeException {
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(todoService.findAllTodosByUser(userId));
@@ -31,17 +32,31 @@ public class TodoController {
 
     @GetMapping("/api/todos/{todoId}")
     public ResponseEntity<TodoDTO> getTodoById(@RequestHeader long userId, @PathVariable long todoId)
-            throws ApiException {
+            throws RuntimeException {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(todoService.findTodoById(todoId, userId));
         }
 
+    @PutMapping("/api/todos/{todoId}")
+    public ResponseEntity<?> updateTodo(
+            @RequestBody Todo todo,
+            @RequestHeader long userId,
+            @PathVariable long todoId
+    ) throws RuntimeException {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(todoService.updateTodo(todo, userId, todoId));
+        }
+
     @Transactional
     @DeleteMapping("/api/todos/{todoId}")
-    public ResponseEntity<ApiStatusDTO> deleteTodoById(@RequestHeader long userId, @PathVariable long todoId)
-            throws ApiException {
+    public ResponseEntity<ApiStatusDTO> deleteTodoById(
+            @RequestHeader long userId,
+            @PathVariable long todoId
+    ) throws RuntimeException {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -49,8 +64,11 @@ public class TodoController {
     }
 
     @PostMapping("/api/todos")
-    public ResponseEntity<TodoDTO> addNewTodo(@RequestBody Todo todo, @RequestHeader(value="userId") long userId)
-            throws ApiException {
+    public ResponseEntity<TodoDTO> addNewTodo(
+            @RequestBody Todo todo,
+            @RequestHeader(value="userId") long userId
+    ) throws RuntimeException {
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(todoService.saveNewTodo(todo, userId));
