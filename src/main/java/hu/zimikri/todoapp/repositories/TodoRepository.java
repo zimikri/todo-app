@@ -1,6 +1,5 @@
 package hu.zimikri.todoapp.repositories;
 
-
 import hu.zimikri.todoapp.models.Entities.Todo;
 import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.data.repository.CrudRepository;

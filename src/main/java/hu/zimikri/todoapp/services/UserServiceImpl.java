@@ -1,17 +1,14 @@
 package hu.zimikri.todoapp.services;
 
-import hu.zimikri.todoapp.controllers.exceptions.ApiException;
 import hu.zimikri.todoapp.controllers.exceptions.UserAlreadyExistsException;
 import hu.zimikri.todoapp.controllers.exceptions.UserNotFoundException;
 import hu.zimikri.todoapp.models.Entities.User;
 import hu.zimikri.todoapp.models.dtos.UserDTO;
+import hu.zimikri.todoapp.models.dtos.UserListDTO;
 import hu.zimikri.todoapp.models.dtos.UserMinDTO;
 import hu.zimikri.todoapp.repositories.TodoRepository;
 import hu.zimikri.todoapp.repositories.UserRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,10 +22,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserMinDTO> findAllUsers() {
-        return userRepository.findAll().stream()
-                .map(user -> new UserMinDTO(user))
-                .collect(Collectors.toList());
+    public UserListDTO findAllUsers() {
+        return new UserListDTO(userRepository.findAll());
     }
 
     @Override

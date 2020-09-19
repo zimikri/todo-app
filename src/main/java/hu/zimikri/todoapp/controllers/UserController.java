@@ -2,6 +2,7 @@ package hu.zimikri.todoapp.controllers;
 
 import hu.zimikri.todoapp.models.Entities.User;
 import hu.zimikri.todoapp.models.dtos.UserDTO;
+import hu.zimikri.todoapp.models.dtos.UserListDTO;
 import hu.zimikri.todoapp.models.dtos.UserMinDTO;
 import hu.zimikri.todoapp.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/api/users")
-    public ResponseEntity<List<UserMinDTO>> getUsers() throws RuntimeException{
+    public ResponseEntity<UserListDTO> getUsers() throws RuntimeException{
 
         return ResponseEntity
                 .status(HttpStatus.OK)

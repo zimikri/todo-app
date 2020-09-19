@@ -51,7 +51,6 @@ public class TodoController {
                 .body(todoService.updateTodo(todo, userId, todoId));
         }
 
-    @Transactional
     @DeleteMapping("/api/todos/{todoId}")
     public ResponseEntity<ApiStatusDTO> deleteTodoById(
             @RequestHeader long userId,
